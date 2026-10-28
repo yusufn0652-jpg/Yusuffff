@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#160b1d">
+<title>Küçük Bir Aşk Oyunu ❤️</title>
+<style>
+:root{--pink:#ff4f87;--pink2:#ff9fc1;--bg:#100b1b;--panel:rgba(21,16,38,.92);--text:#fff4f8;--muted:#dbc8d7}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,#452044 0,transparent 35%),radial-gradient(circle at 85% 80%,#3d173b 0,transparent 30%),linear-gradient(145deg,#090d1b,#1c0c24 60%,#090d1b);display:flex;align-items:center;justify-content:center;padding:16px;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.25;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:43px 43px}
+.wrap{width:min(100%,500px);position:relative;z-index:1}.card{background:var(--panel);border:1px solid #ff8eb54d;box-shadow:0 18px 60px #0007,0 0 35px #ff4f8710;backdrop-filter:blur(12px);border-radius:25px;padding:clamp(20px,5vw,32px);text-align:center;animation:appear .3s ease}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hidden{display:none!important}.emoji{font-size:3.2rem;line-height:1.2;margin-bottom:10px;filter:drop-shadow(0 0 14px #ff4f8760)}h1{font-size:clamp(2rem,8vw,2.7rem);line-height:1.12;margin:8px 0 16px;color:#ffb4cf}h2{font-size:clamp(1.35rem,6vw,1.8rem);line-height:1.25;margin:12px 0}h3{margin:0 0 8px;font-size:1.05rem}p{line-height:1.7;color:var(--muted);margin:12px 0}.small,.foot{font-size:.83rem;color:#bca9bf}.progress{font-size:.85rem;letter-spacing:2px;color:var(--pink2);margin-bottom:15px}
+.options{display:grid;gap:10px;margin:22px 0 16px}button{font:inherit;cursor:pointer;transition:transform .15s,background .15s,border-color .15s}button:active{transform:scale(.98)}button:disabled{opacity:.4;cursor:not-allowed}
+.option{width:100%;text-align:left;padding:13px 14px;border-radius:14px;border:1px solid #5a425e;background:#ffffff08;color:var(--text)}.option:hover,.option.selected{border-color:var(--pink);background:#ff4f871c}.primary{border:0;border-radius:999px;padding:13px 22px;background:linear-gradient(100deg,#ff3979,#ff6c9d);color:white;font-weight:750;box-shadow:0 8px 24px #ff397933}.secondary{border:1px solid #80536f;border-radius:999px;padding:10px 16px;background:#ffffff08;color:#ffe7f0}.danger{border:1px solid #b8506c;border-radius:999px;padding:9px 13px;background:#8d244022;color:#ffdbe5}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.note{border:1px dashed #ad658b;background:#ff4f870c;border-radius:17px;padding:17px;text-align:left;white-space:pre-wrap;overflow-wrap:anywhere}.divider{height:1px;background:#ffb4cf2e;margin:24px 0}.field{text-align:left;margin:12px 0}.field label{display:block;color:#ffcade;font-size:.9rem;margin-bottom:7px}input,textarea{width:100%;font:inherit;color:var(--text);background:#0c0a18;border:1px solid #65455f;border-radius:12px;padding:12px;outline:none}textarea{min-height:125px;resize:vertical;line-height:1.5}input:focus,textarea:focus{border-color:var(--pink)}.letter-item{padding:14px;text-align:left;border:1px solid #5a425e;background:#ffffff08;border-radius:15px;margin-top:10px}.letter-date{font-size:.75rem;color:#bca9bf;margin:5px 0 8px}.letter-body{white-space:pre-wrap;overflow-wrap:anywhere;color:#f6e8f0;line-height:1.6}.letter-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.letter-actions button{font-size:.86rem}.empty{border:1px dashed #76516f;border-radius:14px;padding:16px;color:#cbb8ca;font-size:.9rem}.photo{width:min(100%,280px);aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:8px solid #fff0f5;box-shadow:0 12px 35px #0008;transform:rotate(-2deg);margin:14px auto 20px;display:block}.photo-placeholder{width:min(100%,280px);aspect-ratio:4/3;border:2px dashed #b65b86;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:16px auto;padding:18px;color:#ffbfd5}
+/* Puzzle Stilleri */
+.puzzle-board{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:min(100%,280px);aspect-ratio:1/1;margin:14px auto;background:#2d1b36;padding:6px;border-radius:14px;border:2px solid #ff8eb54d}
+.puzzle-piece{background-size:300px 300px;cursor:pointer;border-radius:6px;border:1px solid #ffffff33;transition:transform .1s,border-color .1s}
+.puzzle-piece.selected-piece{border-color:var(--pink);transform:scale(0.95);box-shadow:0 0 10px var(--pink)}
+.foot{text-align:center;margin:14px 0}#effects{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}.particle{position:absolute;top:-35px;animation:fall var(--dur) linear forwards;font-size:var(--size)}@keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(720deg);opacity:.2}}.pulse{animation:pulse 1.8s ease-in-out infinite}@keyframes pulse{50%{transform:scale(1.07)}}.status{min-height:1.2em;color:#ffb4cf;font-size:.85rem;margin-top:8px}
+</style>
+</head>
+<body>
+<div id="effects"></div>
+<main class="wrap">
+<section class="card" id="welcome">
+ <div class="emoji pulse">💗</div><p class="small">Sadece senin için hazırlandı</p><h1>Küçük Bir<br>Aşk Oyunu</h1>
+ <p>Birkaç küçük soru, kalbimden gelen bir özür ve sana özel minicik bir sürpriz…</p><p>Hazırsan başlayalım. 🌷</p>
+ <button class="primary" onclick="startGame()">Oyuna Başla ♡</button><p class="foot">En güzel cevap, içinden geldiği gibi olandır.</p>
+</section>
+
+<section class="card hidden" id="quiz">
+ <div class="progress" id="progress">♥ 1 / 5 ♥</div><div class="emoji" id="qEmoji">🥺</div><h2 id="question"></h2><p id="subtext"></p>
+ <div class="options" id="options"></div><div class="actions"><button class="secondary" id="backBtn" onclick="previousQuestion()">← Geri</button><button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Sonraki →</button></div>
+</section>
+
+<section class="card hidden" id="letter">
+ <div class="emoji">💌</div><p class="small">Sana söylemek istediklerim</p><h2>Küçük Bir Mektup</h2>
+ <div class="note">  Seni defalarca kırdığım, aynı hataları tekrar tekrar yaptığım ve sana verdiğim sözleri gerektiği gibi tutamadığım için özür dilerim. Biliyorum, artık sadece “özür dilerim” demem belki de hiçbir şeyi düzeltmeye yetmiyor. Çünkü seni üzen şey yalnızca yaptıklarım değil, aynı şeyleri tekrar yaşayarak bana olan güveninin de yıpranması.
+Bizi bu duruma getiren şeylerin farkındayım. Keşke seni kırmadan önce düşünseydim, keşke üzüldüğünü gördüğümde gerçekten değişmek için gereken adımları atsaydım. Seni sevdiğimi söyleyip sonra aynı şeyleri yaparak kalbini daha fazla yormamalıydım.</div>
+
+ <div class="divider"></div>
+ <h2>💌 Bir Mektup Bırak</h2>
+ <p class="small">İçinden geçenleri buraya yazabilirsin. Mektupların bu cihazdaki tarayıcıda saklanır.</p>
+ <div class="field"><label for="letterTitle">Mektubun başlığı</label><input id="letterTitle" maxlength="70" placeholder="Örn. Sana söylemek istediklerim"></div>
+ <div class="field"><label for="letterBody">Mektubun</label><textarea id="letterBody" maxlength="5000" placeholder="Kalbinden geçenleri buraya yaz…"></textarea></div>
+ <div class="actions"><button class="primary" id="saveLetterBtn" onclick="saveLetter()">Mektubu Kaydet ❤️</button><button class="secondary hidden" id="cancelEditBtn" onclick="cancelEdit()">Düzenlemeyi İptal Et</button></div>
+ <div class="status" id="letterStatus" aria-live="polite"></div>
+ <div class="divider"></div><h3>📚 Kayıtlı Mektuplar</h3><p class="small">Dilediğin mektubu okuyabilir, düzenleyebilir veya silebilirsin.</p>
+ <div id="savedLetters"></div>
+ <div class="actions"><button class="primary" onclick="showFinal()">Son sürprize geç ♡</button></div>
+</section>
+
+<section class="card hidden" id="final">
+ <div class="emoji">🌹</div><h2>Şimdi sıra sende…</h2><p>Ne hissediyorsan onu seçebilirsin. Cevabın ne olursa olsun, duygularına saygı duyuyorum. ❤️</p>
+ <div class="options"><button class="option" onclick="forgive()">💖 Affettim</button><button class="option" onclick="needTime()">🕊️ Biraz zamana ihtiyacım var</button><button class="option" onclick="notYet()">🤍 Henüz hazır değilim</button></div>
+ <div class="actions"><button class="secondary" onclick="show('letter')">← Mektuba dön</button></div>
+</section>
+
+<section class="card hidden" id="celebrate">
+ <div class="emoji pulse">❤️</div><h1>Teşekkür ederim!</h1><p>Birlikte anımızı birleştirelim mi? Fotoğrafımızı tamamlamak için parçalara tıkla ve yerlerini değiştir.</p>
+ <div class="puzzle-board" id="puzzleBoard"></div>
+ <div id="puzzleMsg" style="color:#ffb4cf;font-size:0.95rem;margin:10px 0"></div>
+ <div class="actions" id="celebrateActions" style="display:none">
+   <p style="color:#ffb4cf;font-size:1.15rem;width:100%">Seninle daha güzel günlere… ♡</p>
+   <button class="secondary" onclick="restart()">Oyunu tekrar oyna ↻</button>
+ </div>
+</section>
+
+<section class="card hidden" id="time"><div class="emoji">🌙</div><h2>Anladım…</h2><p>Hislerini paylaştığın için teşekkür ederim. Kendine ihtiyacın olan zamanı ver. Seni zorlamak istemiyorum; hazır olduğunda konuşabiliriz. 🤍</p><button class="secondary" onclick="restart()">Baştan başla ↻</button></section>
+<section class="card hidden" id="notYet"><div class="emoji">🫶</div><h2>Dürüst olduğun için teşekkür ederim.</h2><p>Hemen affetmek zorunda değilsin. Seni dinlemek ve güvenini yeniden kazanmak için çaba göstermeye hazırım. 🤍</p><button class="secondary" onclick="restart()">Baştan başla ↻</button></section>
+<p class="foot">❤️ Sevgi, dinlemekle ve emek vermekle güzelleşir.</p>
+</main>
+
+<script>
+const questions=[
+ {emoji:"🥺",q:"Bana biraz kızgın mısın?",sub:"Dürüst olabilirsin, seni dinlemek istiyorum. 💗",opts:["Evet, biraz kızgınım 😕","Hayır, kızgın değilim 😊","Biraz karışık hissediyorum 🤍"]},
+ {emoji:"💌",q:"Seni üzdüğüm için üzgün olduğumu biliyor musun?",sub:"Bunu sadece söylemek değil, göstermek de istiyorum.",opts:["Evet, biliyorum 💕","Emin değilim…","Bunu davranışlarınla görmem gerek."]},
+ {emoji:"🌷",q:"Sence bir ilişkide en önemli şey ne?",sub:"Senin düşüncelerin benim için değerli.",opts:["Birbirini dinlemek 👂","Güven ve dürüstlük 🤝","Sevgi ve emek ❤️","Hepsi birlikte ✨"]},
+ {emoji:"⭐",q:"Şu an benden neye ihtiyacın var?",sub:"İhtiyacını bilmek ve sana kulak vermek istiyorum.",opts:["Daha çok ilgi 💗","Biraz zaman 🕊️","İçten bir konuşma ☕","Sarılmak 🫂"]},
+ {emoji:"🎁",q:"Son bir soru…",sub:"Seni önemsiyorum ve daha iyisini yapmak istiyorum.",opts:["Konuşup bir şans daha verelim ❤️","Biraz zamana ihtiyacım var 🕰️","Henüz hazır değilim 🤍"]}
+];
+let current=0,answers=Array(questions.length).fill(null),editingId=null;
+const $=id=>document.getElementById(id);
+const sections=["welcome","quiz","letter","final","celebrate","time","notYet"];
+const STORAGE_KEY="kucukBirAskOyunu.mektuplar.v1";
+function show(id){sections.forEach(s=>$(s).classList.toggle("hidden",s!==id));window.scrollTo({top:0,behavior:"smooth"});if(id==="letter")renderLetters();}
+function startGame(){current=0;renderQuestion();show("quiz")}
+function renderQuestion(){const q=questions[current];$("progress").textContent=`♥ ${current+1} / ${questions.length} ♥`;$("qEmoji").textContent=q.emoji;$("question").textContent=q.q;$("subtext").textContent=q.sub;$("options").innerHTML="";
+q.opts.forEach((opt,i)=>{const b=document.createElement("button");b.className="option"+(answers[current]===i?" selected":"");b.textContent=opt;b.onclick=()=>{answers[current]=i;renderQuestion()};$("options").appendChild(b)});
+$("backBtn").disabled=current===0;$("nextBtn").textContent=current===questions.length-1?"Mektubu aç 💌":"Sonraki →";$("nextBtn").disabled=answers[current]===null}
+function nextQuestion(){if(answers[current]===null)return;if(current<questions.length-1){current++;renderQuestion()}else show("letter")}
+function previousQuestion(){if(current>0){current--;renderQuestion()}}
+function showFinal(){show("final")}
+
+function forgive(){
+  show("celebrate");
+  makeConfetti(100);
+  initPuzzle();
+}
+
+function needTime(){show("time")}function notYet(){show("notYet")}
+function restart(){answers=Array(questions.length).fill(null);startGame()}
+
+/* Puzzle Mantığı */
+let puzzlePieces = [0,1,2,3,4,5,6,7,8];
+let selectedPuzzleIndex = null;
+
+function initPuzzle(){
+  puzzlePieces = [0,1,2,3,4,5,6,7,8];
+  // Basitçe karıştır (çözülebilir olması için birkaç kez rastgele yer değiştirelim)
+  for(let i=0; i<15; i++){
+    let a = Math.floor(Math.random()*9);
+    let b = Math.floor(Math.random()*9);
+    [puzzlePieces[a], puzzlePieces[b]] = [puzzlePieces[b], puzzlePieces[a]];
+  }
+  // Eğer şans eseri ilk başta çözülmüş gelirse tekrar karıştır
+  if(checkPuzzleWin()) initPuzzle();
+  selectedPuzzleIndex = null;
+  $("celebrateActions").style.display = "none";
+  $("puzzleMsg").textContent = "Parçaları yer değiştirmek için iki tanesine sırayla tıkla 🧩";
+  renderPuzzleBoard();
+}
+
+function renderPuzzleBoard(){
+  const board = $("puzzleBoard");
+  board.innerHTML = "";
+  puzzlePieces.forEach((pieceVal, currentIndex) => {
+    const div = document.createElement("div");
+    div.className = "puzzle-piece" + (selectedPuzzleIndex === currentIndex ? " selected-piece" : "");
+    
+    // Arkadaki resmin koordinatları (3x3 grid için background-position hesaplama)
+    let x = (pieceVal % 3) * 100;
+    let y = Math.floor(pieceVal / 3) * 100;
+    div.style.backgroundImage = "url('biz.jpg')";
+    div.style.backgroundSize = "288px 288px"; // Board boyutuna göre uyumlu
+    div.style.backgroundPosition = `-${x}px -${y}px`;
+    
+    div.onclick = () => handlePuzzleClick(currentIndex);
+    board.appendChild(div);
+  });
+}
+
+function handlePuzzleClick(index){
+  if(selectedPuzzleIndex === null){
+    selectedPuzzleIndex = index;
+    renderPuzzleBoard();
+  } else {
+    // İki parçanın yerini değiştir
+    let temp = puzzlePieces[selectedPuzzleIndex];
+    puzzlePieces[selectedPuzzleIndex] = puzzlePieces[index];
+    puzzlePieces[index] = temp;
+    selectedPuzzleIndex = null;
+    renderPuzzleBoard();
+    
+    if(checkPuzzleWin()){
+      $("puzzleMsg").textContent = "Tebrikler, fotoğrafı tamamladın! ❤️";
+      $("celebrateActions").style.display = "flex";
+      makeConfetti(80);
+    }
+  }
+}
+
+function checkPuzzleWin(){
+  return puzzlePieces.every((val, idx) => val === idx);
+}
+
+function readLetters(){try{const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");return Array.isArray(value)?value:[]}catch(e){return []}}
+function writeLetters(items){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(items));return true}catch(e){$("letterStatus").textContent="Kayıt yapılamadı. Tarayıcı depolama alanını kontrol et.";return false}}
+function saveLetter(){
+ const title=$("letterTitle").value.trim(),body=$("letterBody").value.trim();
+ if(!body){$("letterStatus").textContent="Önce mektubunu yazmalısın. 💌";$("letterBody").focus();return}
+ const items=readLetters(),now=new Date().toISOString();
+ if(editingId){const index=items.findIndex(x=>x.id===editingId);if(index<0){$("letterStatus").textContent="Bu mektup bulunamadı; tekrar deneyebilir misin?";return}items[index]={...items[index],title:title||"Başlıksız mektup",body,updatedAt:now}}
+ else items.unshift({id:(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),title:title||"Başlıksız mektup",body,createdAt:now,updatedAt:now});
+ if(writeLetters(items)){resetLetterForm();$("letterStatus").textContent=editingId?"Mektup güncellendi ❤️":"Mektubun bu cihazda kaydedildi ❤️";renderLetters()}
+}
+function resetLetterForm(){$("letterTitle").value="";$("letterBody").value="";editingId=null;$("saveLetterBtn").textContent="Mektubu Kaydet ❤️";$("cancelEditBtn").classList.add("hidden")}
+function cancelEdit(){resetLetterForm();$("letterStatus").textContent="Düzenleme iptal edildi.";renderLetters()}
+function editLetter(id){const item=readLetters().find(x=>x.id===id);if(!item)return;editingId=id;$("letterTitle").value=item.title;$("letterBody").value=item.body;$("saveLetterBtn").textContent="Değişiklikleri Kaydet ❤️";$("cancelEditBtn").classList.remove("hidden");$("letterStatus").textContent="Mektup düzenleniyor…";$("letterTitle").focus();window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
+function deleteLetter(id){const item=readLetters().find(x=>x.id===id);if(!item)return;if(!confirm("“"+item.title+"” mektubunu silmek istediğine emin misin?"))return;const next=readLetters().filter(x=>x.id!==id);if(writeLetters(next)){if(editingId===id)resetLetterForm();$("letterStatus").textContent="Mektup silindi.";renderLetters()}}
+function formatDate(value){if(!value)return"";try{return new Date(value).toLocaleString("tr-TR",{dateStyle:"medium",timeStyle:"short"})}catch(e){return""}}
+function renderLetters(){const host=$("savedLetters");host.innerHTML="";const items=readLetters();if(!items.length){host.innerHTML='<div class="empty">Henüz mektup yok. İlk mektubu sen bırak. 💗</div>';return}
+items.forEach(item=>{const article=document.createElement("article");article.className="letter-item";const title=document.createElement("h3");title.textContent=item.title||"Başlıksız mektup";const date=document.createElement("div");date.className="letter-date";date.textContent="Kaydedildi: "+formatDate(item.updatedAt||item.createdAt);const body=document.createElement("div");body.className="letter-body";body.textContent=item.body;const actions=document.createElement("div");actions.className="letter-actions";
+const edit=document.createElement("button");edit.className="secondary";edit.textContent="✏️ Düzenle";edit.onclick=()=>editLetter(item.id);
+const del=document.createElement("button");del.className="danger";del.textContent="🗑️ Sil";del.onclick=()=>deleteLetter(item.id);
+actions.append(edit,del);article.append(title,date,body,actions);host.appendChild(article)})
+}
+function makeConfetti(count){const area=$("effects"),symbols=["💗","💖","💕","❤️","✨","🌸"];for(let i=0;i<count;i++){const p=document.createElement("span");p.className="particle";p.textContent=symbols[Math.floor(Math.random()*symbols.length)];p.style.left=Math.random()*100+"vw";p.style.setProperty("--dur",(3+Math.random()*4)+"s");p.style.setProperty("--drift",(Math.random()*180-90)+"px");p.style.setProperty("--size",(14+Math.random()*22)+"px");p.style.animationDelay=Math.random()*1.5+"s";area.appendChild(p);setTimeout(()=>p.remove(),8500)}}
+renderLetters();
+</script>
+</body>
+</html>
